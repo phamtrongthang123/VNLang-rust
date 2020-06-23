@@ -1,18 +1,17 @@
 [package]
-name = "monkey-rust"
+name = "vnlang-rust"
 version = "0.1.0"
-authors = ["exfly <exflyg@gmail.com>"]
 
 [lib]
-name = "monkey_lib"
-path = "lib/monkey.rs"
+name = "vnlang_lib"
+path = "lib/vnlang.rs"
 
 [[bin]]
-name = "monkey_repl"
+name = "vnlang_repl"
 path = "repl/main.rs"
 
 [[bin]]
-name = "monkey_exe"
+name = "vnlang_exe"
 path = "src/main.rs"
 
 [dependencies]

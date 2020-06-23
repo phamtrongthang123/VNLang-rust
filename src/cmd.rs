@@ -6,10 +6,10 @@ pub enum Command {
 }
 
 pub fn read_command() -> Command {
-    let matches = clap_app!(monkey =>
+    let matches = clap_app!(vnlang =>
         (version: "0.3.0")
         (author: "exfly <exflyg@gmail.com>")
-        (about: "The Monkey programming language")
+        (about: "The vnlang programming language")
         (@setting ArgRequiredElseHelp)
         (@arg src: -s --src +takes_value "Path of the source file")
         (@arg run: -r --run +takes_value "Code you want to run inline")

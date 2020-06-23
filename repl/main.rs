@@ -1,21 +1,21 @@
-extern crate monkey_lib;
+extern crate vnlang_lib;
 extern crate nom;
 extern crate rustyline;
 
-use monkey_lib::evaluator::*;
-use monkey_lib::lexer::token::*;
-use monkey_lib::lexer::*;
-use monkey_lib::parser::*;
+use vnlang_lib::evaluator::*;
+use vnlang_lib::lexer::token::*;
+use vnlang_lib::lexer::*;
+use vnlang_lib::parser::*;
 use nom::*;
 use rustyline::completion::FilenameCompleter;
 use rustyline::error::ReadlineError;
 use rustyline::{Config, Editor};
 
 #[cfg(unix)]
-static PROMPT: &'static str = "\x1b[1;32mmonkey >>\x1b[0m ";
+static PROMPT: &'static str = "\x1b[1;32mvnlang >>\x1b[0m ";
 
 #[cfg(windows)]
-static PROMPT: &'static str = "monkey >> ";
+static PROMPT: &'static str = "vnlang >> ";
 
 fn main() {
     let mut rl = Editor::<()>::new();
@@ -24,7 +24,7 @@ fn main() {
     }
 
     println!();
-    println!("This is the monkey language repl v0.3.0");
+    println!("This is the vnlang language repl v0.3.0");
     println!("Press Ctrl-D or enter \"quit\" to exit.");
     println!();
 

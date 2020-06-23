@@ -1,12 +1,12 @@
-extern crate monkey_lib;
+extern crate vnlang_lib;
 #[macro_use]
 extern crate clap;
 extern crate nom;
 
-use monkey_lib::evaluator::*;
-use monkey_lib::lexer::token::*;
-use monkey_lib::lexer::*;
-use monkey_lib::parser::*;
+use vnlang_lib::evaluator::*;
+use vnlang_lib::lexer::token::*;
+use vnlang_lib::lexer::*;
+use vnlang_lib::parser::*;
 use nom::*;
 use std::fs::File;
 use std::io::prelude::*;
