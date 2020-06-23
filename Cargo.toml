@@ -1,20 +1,11 @@
 [package]
-name = "vnlang-rust"
+name = "monkey"
 version = "0.1.0"
-
-[lib]
-name = "vnlang_lib"
-path = "lib/vnlang.rs"
-
-[[bin]]
-name = "vnlang_repl"
-path = "repl/main.rs"
-
-[[bin]]
-name = "vnlang_exe"
-path = "src/main.rs"
+authors = ["Paul Dix <paul@pauldix.net>"]
+description = "A rust implementation of Thorsten Ball's Monkey programming language."
+license = "MIT"
+edition = "2018"
 
 [dependencies]
-nom = "^4.0.0"
-clap = "~2.31.2"
-rustyline = "~6.0.0"
+byteorder = "1"
+enum-iterator = "0.3.0"

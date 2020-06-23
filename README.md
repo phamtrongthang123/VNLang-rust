@@ -1,36 +1,3 @@
-# monkey-rust
+# Monkey Rust
 
-An interpreter for the Monkey programming language written in Rust
-
-![The Monkey Programming Language](https://cloud.githubusercontent.com/assets/1013641/22617482/9c60c27c-eb09-11e6-9dfa-b04c7fe498ea.png)
-
-## What’s Monkey?
-
-Monkey has a C-like syntax, supports **variable bindings**, **prefix** and **infix operators**, has **first-class** and **higher-order functions**, can handle **closures** with ease and has **integers**, **booleans**, **arrays** and **hashes** built-in.
-
-There is a book about learning how to make an interpreter: [Writing An Interpreter In Go](https://interpreterbook.com/#the-monkey-programming-language). This is where the Monkey programming language come from.
-
-## Instruction
-
-### Build and test
-
-```bash
-$ cargo build
-$ cargo test
-```
-
-### Running the REPL
-
-```bash
-$ cargo run --release --bin monkey_repl
-```
-
-### Running the Interpreter
-
-```bash
-$ cargo run --release --bin monkey_exe -- --src examples/hash.mk
-```
-
-## License
-
-[BSD3](LICENSE)
+This is a Rust implementation of Thorsten Ball's Monkey programming language from his excellent book [Writing An Interpreter in Go](https://interpreterbook.com/). I built it as a fun way to learn the basics of Rust. An interpreter is great for this because you only use the standard library and don't yet have to worry about threads, network programming or a bunch of other complicated stuff. I attempted to keep the structure as close to Thorsten's Go implementation as possible, which means it might not be the best way to structure things in Rust (I'm still learning). Although I did pull in a few Rust idioms like results and error handling. I've written up more details on my learning process, and other stuff in my post [Rust can be difficult to learn and frustrating, but it's also the most exciting thing in software development in a long time](https://www.influxdata.com/blog/rust-can-be-difficult-to-learn-and-frustrating-but-its-also-the-most-exciting-thing-in-software-development-in-a-long-time/).

@@ -1,54 +1,83 @@
-extern crate vnlang_lib;
-#[macro_use]
-extern crate clap;
-extern crate nom;
+use std::env;
+use std::process::exit;
+use std::io;
+use std::error::Error;
+use std::time::Instant;
+use std::rc::Rc;
+use std::cell::RefCell;
+use monkey::repl;
+use monkey::parser::parse;
+use monkey::compiler::Compiler;
+use monkey::vm::VM;
+use monkey::object::Environment;
+use monkey::evaluator::eval;
 
-use vnlang_lib::evaluator::*;
-use vnlang_lib::lexer::token::*;
-use vnlang_lib::lexer::*;
-use vnlang_lib::parser::*;
-use nom::*;
-use std::fs::File;
-use std::io::prelude::*;
+const HELP: &str = "requires one of the following arguments:\n\trepl - starts the repl\n\tvm - benchmarks the vm fibonacci\n\teval - bencharks the interpreter fibonacci";
+const PROGRAM: &str = "\
+let fibonacci = fn(x) {
+  if (x == 0) {
+    0
+  } else {
+    if (x == 1) {
+      return 1;
+    } else {
+      fibonacci(x - 1) + fibonacci(x - 2);
+    }
+  }
+};
+fibonacci(30);
+";
 
-use cmd::*;
-mod cmd;
+fn main() -> io::Result<()> {
+    let args: Vec<String> = env::args().collect();
 
-fn read_file(file_path: String) -> Result<String, ::std::io::Error> {
-    let mut file = File::open(file_path)?;
-    let mut contents = String::new();
-    file.read_to_string(&mut contents)?;
-    Ok(contents)
-}
+    if args.len() == 1 {
+        println!("No arguments: {}", HELP);
+        exit(1);
+    }
 
-fn main() {
-    let code_string = match cmd::read_command() {
-        Command::FileReadCommand(file_path) => read_file(file_path).ok(),
-        Command::RunInlineCode(code) => Some(code),
-        Command::Noop => None,
-    };
+    let program = parse(PROGRAM).unwrap();
 
-    if code_string.is_some() {
-        let code_string = code_string.unwrap();
-        let mut evaluator = Evaluator::new();
-        let lex_tokens = Lexer::lex_tokens(code_string.as_bytes());
-        match lex_tokens {
-            Ok((_, r)) => {
-                let tokens = Tokens::new(&r);
-                let parsed = Parser::parse_tokens(tokens);
-                match parsed {
-                    Ok((_, program)) => {
-                        let eval = evaluator.eval_program(&program);
-                        println!("{}", eval);
-                    }
-                    Err(Err::Error(_)) => println!("Parser error"),
-                    Err(Err::Failure(_)) => println!("Parser failure"),
-                    Err(Err::Incomplete(_)) => println!("Incomplete parsing"),
-                }
+    match args[1].as_str() {
+        "repl" => {
+            println!("Welcome to the Monkey REPL!");
+            let input = io::stdin();
+            let output = io::stdout();
+            repl::start(input.lock(), output.lock())
+        },
+        "vm" => {
+            let mut compiler = Compiler::new();
+            let bytecode = compiler.compile(program).unwrap();
+            let mut machine = VM::new(bytecode.constants, bytecode.instructions.to_vec());
+
+            let now = Instant::now();
+
+            {
+                machine.run();
             }
-            Err(Err::Error(_)) => println!("Lexer error"),
-            Err(Err::Failure(_)) => println!("Lexer failure"),
-            Err(Err::Incomplete(_)) => println!("Incomplete lexing"),
+
+            let elapsed = now.elapsed();
+            let sec = (elapsed.as_secs() as f64) + (elapsed.subsec_nanos() as f64 / 1000_000_000.0);
+            println!("VM time seconds: {}", sec);
+            Ok(())
+        },
+        "eval" => {
+            let mut env = Rc::new(RefCell::new(Environment::new()));
+
+            let now = Instant::now();
+
+            {
+                eval(&program, env).unwrap();
+            }
+
+            let elapsed = now.elapsed();
+            let sec = (elapsed.as_secs() as f64) + (elapsed.subsec_nanos() as f64 / 1000_000_000.0);
+            println!("Eval time seconds: {}", sec);
+            Ok(())
+        },
+        arg => {
+            println!("Unsupported argument '{}': {}", arg, HELP);
+            exit(1);
         }
     }
 }
