@@ -6,7 +6,7 @@ use byteorder;
 use self::byteorder::{ByteOrder, BigEndian, ReadBytesExt};
 use std::rc::Rc;
 use std::borrow::Borrow;
-use std::collections::HashMap;
+use hashbrown::HashMap;
 
 const STACK_SIZE: usize = 2048;
 const GLOBAL_SIZE: usize = 65536;
@@ -465,7 +465,7 @@ fn is_truthy(obj: &Rc<Object>) -> bool {
 mod test {
     use super::*;
     use std::rc::Rc;
-    use std::collections::HashMap;
+    use hashbrown::HashMap;
 
     struct VMTestCase<'a> {
         input: &'a str,
@@ -610,7 +610,7 @@ mod test {
         macro_rules! map(
             { $($key:expr => $value:expr),+ } => {
                 {
-                    let mut m = ::std::collections::HashMap::new();
+                    let mut m = ::hashbrown::HashMap::new();
                     $(
                         m.insert($key, $value);
                     )+

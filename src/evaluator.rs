@@ -2,7 +2,7 @@ use std;
 use std::fmt;
 use std::cell::RefCell;
 use std::rc::Rc;
-use std::collections::HashMap;
+use hashbrown::HashMap;
 use crate::ast::*;
 use crate::object;
 use crate::object::{Object, Environment, Function, Builtin, Array, MonkeyHash};

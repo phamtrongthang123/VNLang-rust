@@ -8,7 +8,7 @@ use std::fmt::Display;
 use std::rc::Rc;
 use std::cell::RefCell;
 use std::borrow::Borrow;
-use std::collections::HashMap;
+use hashbrown::HashMap;
 use enum_iterator::IntoEnumIterator;
 
 pub struct Bytecode<'a> {

@@ -1,5 +1,5 @@
 use crate::ast::*;
-use std::collections::HashMap;
+use hashbrown::HashMap;
 use crate::token::Token;
 use crate::lexer::Lexer;
 

@@ -1,6 +1,6 @@
 use crate::token;
 use std::fmt;
-use std::collections::HashMap;
+use hashbrown::HashMap;
 use std::hash::{Hash, Hasher};
 
 #[derive(Debug)]
